@@ -1,0 +1,29 @@
+# 开发环境配置
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+server:
+  port: 8080
+  servlet:
+    context-path: /
+
+logging:
+  level:
+    root: INFO
+    com.agent: DEBUG  # 开发环境使用 DEBUG 级别，便于调试
+    org.springframework: INFO
+    org.springframework.web: DEBUG
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+
+# 开发环境特定配置
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: always
