@@ -1,2 +1,4 @@
 # Maven 编译输出目录
 target/
+src/main/resources/application-dev.yml
+src/main/resources/application-test.yml
