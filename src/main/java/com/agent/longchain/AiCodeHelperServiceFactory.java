@@ -37,4 +37,24 @@ public class AiCodeHelperServiceFactory {
             .build();
         return aiCodeHelperService;
     }
+
+    @Bean
+    public AiCodeHelperService aiCodeHelperServiceWithJsonOutput() {
+        
+        // 注意：qwen-max 模型不支持 ResponseFormat.JSON
+        // 如果需要 JSON 输出，可以通过以下方式实现：
+        // 1. 在 system prompt 中要求模型返回 JSON 格式
+        // 2. 使用支持 JSON 格式的其他模型（如 qwen-plus）
+        // 3. 在后处理中解析和格式化响应
+        
+        // 目前使用与第一个 Bean 相同的配置
+        // 如果需要 JSON 输出，可以在 system-prompt.txt 中添加要求返回 JSON 的指令
+        ChatMemory chatMemory = MessageWindowChatMemory.withMaxMessages(10);
+        AiCodeHelperService aiCodeHelperService = AiServices.builder(AiCodeHelperService.class)
+                .chatModel(qwenChatModel)
+                .chatMemory(chatMemory)
+                .build();
+        
+        return aiCodeHelperService;
+    }
 }

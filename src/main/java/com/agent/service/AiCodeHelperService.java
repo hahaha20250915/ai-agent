@@ -17,5 +17,8 @@ public interface AiCodeHelperService {
 
     // 学习报告
     record Report(String name, List<String> suggestionList){}
+
+    @SystemMessage(fromResource = "prompt-report.txt")
+    String chatForReportWithJsonOutput(String userMessage);
     
 }
