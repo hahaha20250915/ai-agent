@@ -13,7 +13,7 @@ import dev.langchain4j.model.chat.response.ChatResponse;
 @Component
 public class AiCodeHelper {
 
-    private static final Logger logger = LoggerFactory.getLogger(AiCodeHelper.class);
+    private static final Logger log = LoggerFactory.getLogger(AiCodeHelper.class);
     
     @Autowired
     private QwenChatModel qwenChatModel;
@@ -25,4 +25,13 @@ public class AiCodeHelper {
         //logger.info("AI 输出：" + aiMessage.toString());
         return aiMessage.text();
     }
+
+    //多模态聊天
+    public String chatWithMessage(UserMessage userMessage) {
+        ChatResponse chatResponse = qwenChatModel.chat(userMessage);
+        AiMessage aiMessage = chatResponse.aiMessage();
+        //log.info("AI 输出：" + aiMessage.toString());
+        return aiMessage.text();    
+    }
+    
 }
