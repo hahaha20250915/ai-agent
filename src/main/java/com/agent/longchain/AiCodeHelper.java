@@ -7,8 +7,11 @@ import org.springframework.stereotype.Component;
 
 import dev.langchain4j.community.model.dashscope.QwenChatModel;
 import dev.langchain4j.data.message.AiMessage;
+import dev.langchain4j.data.message.ChatMessage;
 import dev.langchain4j.data.message.UserMessage;
 import dev.langchain4j.model.chat.response.ChatResponse;
+
+import java.util.List;
 
 @Component
 public class AiCodeHelper {
@@ -29,6 +32,14 @@ public class AiCodeHelper {
     //多模态聊天
     public String chatWithMessage(UserMessage userMessage) {
         ChatResponse chatResponse = qwenChatModel.chat(userMessage);
+        AiMessage aiMessage = chatResponse.aiMessage();
+        //log.info("AI 输出：" + aiMessage.toString());
+        return aiMessage.text();    
+    }
+    
+    //支持消息列表的聊天方法（可以包含系统消息）
+    public String chatWithMessages(List<ChatMessage> messages) {
+        ChatResponse chatResponse = qwenChatModel.chat(messages);
         AiMessage aiMessage = chatResponse.aiMessage();
         //log.info("AI 输出：" + aiMessage.toString());
         return aiMessage.text();    
