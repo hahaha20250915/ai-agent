@@ -7,6 +7,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.agent.service.AiCodeHelperService;
 
+import dev.langchain4j.service.Result;
+
 @SpringBootTest
 class AiCodeHelperServiceTest {
 
@@ -14,9 +16,9 @@ class AiCodeHelperServiceTest {
     @Qualifier("aiCodeHelperService")
     private AiCodeHelperService aiCodeHelperService;
 
-    @Autowired
-    @Qualifier("aiCodeHelperServiceWithJsonOutput")
-    private AiCodeHelperService aiCodeHelperServiceWithJsonOutput;
+    //@Autowired
+    //@Qualifier("aiCodeHelperServiceWithJsonOutput")
+    //private AiCodeHelperService aiCodeHelperServiceWithJsonOutput;
 
     @Test
     void chat() {
@@ -48,12 +50,12 @@ class AiCodeHelperServiceTest {
     }
 
 
-
     @Test
-    void chatWithJsonOutput() {
-        // 使用带 JSON 格式化输出的服务
-        String result = aiCodeHelperServiceWithJsonOutput.chat("你好，你是谁");
-        System.out.println("JSON 格式化输出结果: " + result);
+    void chatWithRag() {
+        Result<String> result = aiCodeHelperService.chatWithRag("如果你是第一次找工作，会遇到哪些问题？简单回答一下");
+        System.out.println(result.content());
+        System.out.println(result.sources());
     }
+
 
 }

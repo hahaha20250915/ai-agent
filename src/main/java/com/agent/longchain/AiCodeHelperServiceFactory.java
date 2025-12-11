@@ -1,5 +1,7 @@
 package com.agent.longchain;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -7,9 +9,14 @@ import org.springframework.context.annotation.Configuration;
 import com.agent.service.AiCodeHelperService;
 
 import dev.langchain4j.community.model.dashscope.QwenChatModel;
+import dev.langchain4j.data.document.Document;
+import dev.langchain4j.data.document.loader.FileSystemDocumentLoader;
 import dev.langchain4j.memory.ChatMemory;
 import dev.langchain4j.memory.chat.MessageWindowChatMemory;
+import dev.langchain4j.model.embedding.EmbeddingModel;
 import dev.langchain4j.service.AiServices;
+import dev.langchain4j.rag.content.retriever.ContentRetriever;
+import dev.langchain4j.store.embedding.EmbeddingStoreIngestor;
 
 /**
  * AiCodeHelperService 工厂类 用于创建 AiCodeHelperService 实例
@@ -23,6 +30,9 @@ public class AiCodeHelperServiceFactory {
     @Autowired
     private QwenChatModel qwenChatModel;
 
+    @Autowired
+    private ContentRetriever contentRetriever;  
+
     @Bean
     public AiCodeHelperService aiCodeHelperService() {
         
@@ -34,12 +44,21 @@ public class AiCodeHelperServiceFactory {
         AiCodeHelperService aiCodeHelperService = AiServices.builder(AiCodeHelperService.class)
             .chatModel(qwenChatModel)
             .chatMemory(chatMemory)
+            .contentRetriever(contentRetriever)
             .build();
         return aiCodeHelperService;
     }
 
-    @Bean
+    //@Bean
     public AiCodeHelperService aiCodeHelperServiceWithJsonOutput() {
+
+        // 1. 加载文档 -- RAG retrieval-augmented generation 检索增强生成
+        //List<Document> documents = FileSystemDocumentLoader.loadDocuments("src/main/resources/docs");
+        // 2. 使用内置的 EmbeddingModel 转换文本为向量，然后存储到自动注入的内存 embeddingStore 中
+        /* EmbeddingModel embeddingModel = new DashscopeEmbeddingModel
+        (DashscopeEmbeddings.builder().apiKey(System.getenv("DASHSCOPE_API_KEY")).build());
+        EmbeddingStoreIngestor.ingest(documents, embeddingModel); */
+
         
         // 注意：qwen-max 模型不支持 ResponseFormat.JSON
         // 如果需要 JSON 输出，可以通过以下方式实现：
@@ -53,6 +72,7 @@ public class AiCodeHelperServiceFactory {
         AiCodeHelperService aiCodeHelperService = AiServices.builder(AiCodeHelperService.class)
                 .chatModel(qwenChatModel)
                 .chatMemory(chatMemory)
+                .contentRetriever(contentRetriever)
                 .build();
         
         return aiCodeHelperService;
