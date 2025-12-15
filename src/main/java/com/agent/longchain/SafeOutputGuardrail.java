@@ -25,10 +25,10 @@ public class SafeOutputGuardrail implements OutputGuardrail {
                 outputText = outputText.replace(word, "**");
             }
         } */
-        for (String word : sensitiveWords) {
+        /* for (String word : sensitiveWords) {
             String regex = "(?i)" + java.util.regex.Pattern.quote(word); // 不区分大小写匹配
             outputText = outputText.replaceAll(regex, "**");
-        }
+        } */
         return successWith(outputText);
     }
 }

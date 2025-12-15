@@ -3,11 +3,14 @@ package com.agent.service;
 
 import java.util.List;
 
+import dev.langchain4j.service.MemoryId;
 import dev.langchain4j.service.Result;
 import dev.langchain4j.service.SystemMessage;
+import dev.langchain4j.service.UserMessage;
 // import dev.langchain4j.service.spring.AiService;
 import dev.langchain4j.service.guardrail.InputGuardrails;
 import dev.langchain4j.service.guardrail.OutputGuardrails;
+import reactor.core.publisher.Flux;
 
 import com.agent.longchain.SafeInputGuardrail;
 import com.agent.longchain.SafeOutputGuardrail;
@@ -45,5 +48,8 @@ public interface AiCodeHelperService {
      */
     @SystemMessage(fromResource = "system-prompt.txt")
     Result<String> chatWithRag(String userMessage);
+
+    // 流式对话
+    Flux<String> chatStream(@MemoryId String memoryId, @UserMessage String userMessage);
     
 }

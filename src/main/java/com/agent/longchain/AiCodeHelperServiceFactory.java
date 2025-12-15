@@ -12,7 +12,9 @@ import dev.langchain4j.community.model.dashscope.QwenChatModel;
 import dev.langchain4j.data.document.Document;
 import dev.langchain4j.data.document.loader.FileSystemDocumentLoader;
 import dev.langchain4j.memory.ChatMemory;
+import dev.langchain4j.memory.chat.ChatMemoryProvider;
 import dev.langchain4j.memory.chat.MessageWindowChatMemory;
+import dev.langchain4j.model.chat.StreamingChatModel;
 import dev.langchain4j.model.embedding.EmbeddingModel;
 import dev.langchain4j.service.AiServices;
 import dev.langchain4j.rag.content.retriever.ContentRetriever;
@@ -33,6 +35,9 @@ public class AiCodeHelperServiceFactory {
     @Autowired
     private ContentRetriever contentRetriever;  
 
+    @Autowired
+    private StreamingChatModel streamingChatModel;
+
     @Bean
     public AiCodeHelperService aiCodeHelperService() {
         
@@ -41,11 +46,16 @@ public class AiCodeHelperServiceFactory {
 
         //加入会话记忆
         ChatMemory chatMemory = MessageWindowChatMemory.withMaxMessages(10);
+
+        ChatMemoryProvider chatMemoryProvider = (memoryId) ->
+            MessageWindowChatMemory.withMaxMessages(10);
+
         AiCodeHelperService aiCodeHelperService = AiServices.builder(AiCodeHelperService.class)
             .chatModel(qwenChatModel)
-            .chatMemory(chatMemory)
+            .chatMemoryProvider(chatMemoryProvider)
             .contentRetriever(contentRetriever)
             .tools(new InterviewQuestionTool()) // 工具调用
+            .streamingChatModel(streamingChatModel)
             .build();
         return aiCodeHelperService;
     }
