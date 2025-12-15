@@ -45,6 +45,7 @@ public class AiCodeHelperServiceFactory {
             .chatModel(qwenChatModel)
             .chatMemory(chatMemory)
             .contentRetriever(contentRetriever)
+            .tools(new InterviewQuestionTool()) // 工具调用
             .build();
         return aiCodeHelperService;
     }
