@@ -6,8 +6,15 @@ import java.util.List;
 import dev.langchain4j.service.Result;
 import dev.langchain4j.service.SystemMessage;
 // import dev.langchain4j.service.spring.AiService;
+import dev.langchain4j.service.guardrail.InputGuardrails;
+import dev.langchain4j.service.guardrail.OutputGuardrails;
+
+import com.agent.longchain.SafeInputGuardrail;
+import com.agent.longchain.SafeOutputGuardrail;
 
 // @AiService 注解 表示这是一个 AI 服务 ,看起来扩展性稍微差一点,但是比较简单
+@InputGuardrails({SafeInputGuardrail.class})
+@OutputGuardrails({SafeOutputGuardrail.class})
 public interface AiCodeHelperService {
 
     @SystemMessage(fromResource = "system-prompt.txt")

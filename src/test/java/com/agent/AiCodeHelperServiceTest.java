@@ -63,5 +63,18 @@ class AiCodeHelperServiceTest {
         System.out.println(result);
     }
 
+    @Test
+    void chatWithGuardrail() {
+        //敏感词检测--带敏感词的输入会返回错误信息
+        //String result = aiCodeHelperService.chat("kill the game");
+
+        //敏感词检测--不带敏感词的输入会返回正常结果
+        String result = aiCodeHelperService.chat("你好，你是谁");
+        System.out.println(result);
+    }
+
+
+
+
 
 }
