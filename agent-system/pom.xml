@@ -76,11 +76,18 @@
             <version>1.1.0-beta7</version>
         </dependency>
 
-        <!-- reactor -->
+        <!-- reactor 响应式依赖包 -->
         <dependency>
             <groupId>dev.langchain4j</groupId>
             <artifactId>langchain4j-reactor</artifactId>
             <version>1.1.0-beta7</version>
+        </dependency>
+
+        <!-- PDFBox 用于处理 PDF 文件 -->
+        <dependency>
+            <groupId>org.apache.pdfbox</groupId>
+            <artifactId>pdfbox</artifactId>
+            <version>3.0.0</version>
         </dependency>
     </dependencies>
 

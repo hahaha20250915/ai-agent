@@ -62,6 +62,29 @@ public class AiCodeHelperServiceFactory {
         return aiCodeHelperService;
     }
 
+
+    @Bean
+    public AiCodeHelperService aiCodeHelperServiceNoRag() {
+        
+        //不加入会话记忆
+        //return AiServices.create(AiCodeHelperService.class, qwenChatModel);
+
+        //加入会话记忆
+        ChatMemory chatMemory = MessageWindowChatMemory.withMaxMessages(10);
+
+        ChatMemoryProvider chatMemoryProvider = (memoryId) ->
+            MessageWindowChatMemory.withMaxMessages(10);
+
+        AiCodeHelperService aiCodeHelperService = AiServices.builder(AiCodeHelperService.class)
+            .chatModel(qwenChatModel)
+            .chatMemoryProvider(chatMemoryProvider)
+            //.contentRetriever(contentRetriever)
+            .tools(new InterviewQuestionTool()) // 工具调用
+            .streamingChatModel(streamingChatModel)
+            .build();
+        return aiCodeHelperService;
+    }
+
     //@Bean
     public AiCodeHelperService aiCodeHelperServiceWithJsonOutput() {
 

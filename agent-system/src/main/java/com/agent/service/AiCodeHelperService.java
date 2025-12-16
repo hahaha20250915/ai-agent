@@ -49,7 +49,10 @@ public interface AiCodeHelperService {
 
     // 流式对话
     Flux<String> chatStream(@MemoryId String memoryId, @UserMessage String userMessage);
+
     
+    // 多模态对话 userMessage: 用户消息封装了文本、图片、PDF文件
+    Flux<String> chatStreamMultimodal(@MemoryId String memoryId, @UserMessage dev.langchain4j.data.message.UserMessage userMessage);
 }
 
 
